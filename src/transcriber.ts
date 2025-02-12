@@ -22,13 +22,10 @@ export function setupTranscriber(from: HTMLInputElement, to: HTMLParagraphElemen
     to.innerText = transcribeRomaji(from.value);
     /*
     * $YA -> $I + ya
-    * $OU -> $OU
     * YOU -> yo + U
-    * FU -> HU
     * F? -> FU + ?
     * V? -> U" + ?
     * J? -> SHI" + ?
-    * DZU -> DU -> TSU"
     * */
   });
 }
@@ -38,7 +35,12 @@ function transcribeRomaji(romaji: string) {
   let consonant = "_";
   let doubleConsonant = false;
 
-  romaji = romaji.replace("tsu", "tu").replace("shi", "si");
+  romaji = romaji
+    .replaceAll("tsu", "tu")
+    .replaceAll("shi", "si")
+    .replaceAll("ji", "zi")
+    .replaceAll("dzu", "du")
+    .replaceAll("fu", "hu");
 
   for (const char of romaji) {
     if (isVowel(char)) {
@@ -56,7 +58,7 @@ function transcribeRomaji(romaji: string) {
 
       consonant = "_";
     } else if (char === "n" && consonant == "n") {
-      result += alphabet["n"]["n"];
+      result += alphabet.n.n;
     } else {
       if (consonant === char) {
         doubleConsonant = true;

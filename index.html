@@ -7,21 +7,21 @@
     <script defer type="module" src="/src/main.ts"></script>
     <title>Vite + TS</title>
 </head>
-<body class="m-5">
-<h1 class="text-lg font-bold">taipu >>> タイプ</h1>
-<div class="">
-    <div class="flex flex-col gap-2">
-        <div class="flex items-center">
-            <label for="from" class="mr-1">Romaji:</label>
-            <input type="text" name="from" id="from" class="border border-stone-600 rounded-lg p-1 font-mono">
-        </div>
-        <div class="flex">
-            <p id="to"></p>
-        </div>
+<body class="m-5 bg-zinc-800 text-zinc-100">
+<h1 class="text-lg font-bold mb-4">taipu >>> タイプ</h1>
+<div class="flex flex-col gap-2 bg-zinc-700 rounded-lg p-5">
+    <div class="flex items-center">
+        <label for="from" class="mr-1">Romaji:</label>
+        <input type="text" name="from" id="from" class="border border-stone-600 rounded-lg p-1 font-mono">
+    </div>
+    <div class="flex">
+        <p id="to"></p>
+    </div>
 
-        <div>
-            <label for="kana">Katakana:</label><input type="checkbox" name="kana" id="kana">
-        </div>
+    <div>
+        <label for="kana" class="mr-1">Hiragana</label>
+        <input type="checkbox" name="kana" id="kana" class="checkbox">
+        <label for="kana" class="ml-1">Katakana</label>
     </div>
 </div>
 </body>
