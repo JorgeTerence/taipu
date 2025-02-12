@@ -37,6 +37,7 @@ function transcribeRomaji(romaji: string) {
   romaji = romaji
     .replaceAll("tsu", "tu")
     .replaceAll("shi", "si")
+    .replaceAll("chi", "ti")
     .replaceAll("ji", "zi")
     .replaceAll(/j(?=[aiueo])/g, "zy")
     .replaceAll("dzu", "du")
