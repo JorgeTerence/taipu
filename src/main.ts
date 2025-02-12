@@ -1,4 +1,8 @@
-import './style.css'
-import {setupTranscriber} from "./transcriber.ts";
+import "./style.css";
+import {setupAlphabetPicker, setupTranscriber} from "./transcriber.ts";
 
-setupTranscriber(document.querySelector<HTMLInputElement>('#from')!, document.querySelector<HTMLParagraphElement>('#to')!);
+let alphabet = {};
+console.log(alphabet)
+
+setupAlphabetPicker(document.querySelector<HTMLInputElement>("#kana")!, document.querySelector<HTMLInputElement>("#from")!);
+setupTranscriber(document.querySelector<HTMLInputElement>("#from")!, document.querySelector<HTMLParagraphElement>("#to")!);
