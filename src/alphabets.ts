@@ -16,7 +16,7 @@ export const hiragana: Alphabet = {
     _: {a: "ぁ", i: "ぃ", u: "ぅ", e: "ぇ", o: "ぉ"},
     y: {a: "ゃ", i: "", u: "ゅ", e: "", o: "ょ"},
     t: {u: "っ"},
-  }
+  },
 };
 
 export const katakana: Alphabet = {
@@ -34,5 +34,20 @@ export const katakana: Alphabet = {
     _: {a: "ァ", i: "ィ", u: "ゥ", e: "ェ", o: "ォ"},
     y: {a: "ャ", i: "", u: "ュ", e: "", o: "ョ"},
     t: {u: "ッ"},
-  }
+  },
 };
+
+const TenTenMapping: Record<string, string> = {g: "k", z: "s", d: "t", b: "h"};
+const MaruMapping: Record<string, string> = {"p": "h"};
+
+export function diacriticize(consonant: string, char: string, alphabet: Alphabet, small = false) {
+  console.debug(consonant)
+  if (consonant in MaruMapping)
+    return alphabet[MaruMapping[consonant]][char] + "º";
+  else if (consonant in TenTenMapping)
+    return alphabet[TenTenMapping[consonant]][char] + "\"";
+  else if (small)
+    return (alphabet.small[consonant] as Row)[char];
+  else
+    return alphabet[consonant][char];
+}
