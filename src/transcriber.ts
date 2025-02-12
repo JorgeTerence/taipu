@@ -8,7 +8,6 @@ function isVowel(char: string) {
 }
 
 let alphabet = hiragana;
-console.log(alphabet)
 
 export function setupAlphabetPicker(toggle: HTMLInputElement) {
   if (toggle.checked) alphabet = katakana;
@@ -17,7 +16,7 @@ export function setupAlphabetPicker(toggle: HTMLInputElement) {
 
 export function setupTranscriber(from: HTMLInputElement, to: HTMLParagraphElement, kana: Alphabet) {
   let consonant = "_";
-  let diacritic = "";
+  let doubleConsonant = false;
   from.addEventListener("input", () => {
     if (kana == Alphabet.KATAKANA)
       alphabet = katakana;
@@ -26,34 +25,44 @@ export function setupTranscriber(from: HTMLInputElement, to: HTMLParagraphElemen
 
     /*
     * $YA -> $I + ya
-    * $$? -> tsu + $$?
     * $OU -> $OU
     * YOU -> yo + U
     * F? -> FU + ?
     * V? -> U" + ?
     * J? -> SHI" + ?
-    * SHI -> SHI
+    * DZU -> DU -> TSU"
     * */
     consonant = "_";
-    diacritic = "";
     to.innerText = "";
+    doubleConsonant = false;
+    console.clear();
 
-    for (const char of from.value) {
+    // create intermediate variable for from.value and replace tsu -> tu
+    const fromValue = from.value.replace("tsu", "tu").replace("shi", "si");
+
+    for (const char of fromValue) {
       if (isVowel(char)) {
-        to.innerText += hiragana[consonant][char] + diacritic;
+        if (doubleConsonant) {
+          to.innerText += "っ"; // TODO: switch between hira and kata
+          doubleConsonant = false;
+        }
+
+        if (consonant in MaruMapping)
+          to.innerText += alphabet[MaruMapping[consonant]][char] + "º";
+        else if (consonant in TenTenMapping)
+          to.innerText += alphabet[TenTenMapping[consonant]][char] + "\"";
+        else
+          to.innerText += alphabet[consonant][char];
+
         consonant = "_";
-        diacritic = "";
       } else if (char === "n" && consonant == "n") {
-        to.innerText += hiragana["n"]["n"];
+        to.innerText += alphabet["n"]["n"];
       } else {
-        if (char in TenTenMapping) {
-          consonant = TenTenMapping[char];
-          diacritic = "\"";
-        } else if (char in MaruMapping) {
-          consonant = MaruMapping[char];
-          diacritic = "º";
-        } else
-          consonant = char;
+        if (consonant === char) {
+          doubleConsonant = true;
+          continue;
+        }
+        consonant = char;
       }
     }
   });
