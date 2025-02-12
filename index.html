@@ -1,13 +1,24 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script defer type="module" src="/src/main.ts"></script>
     <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+</head>
+<body class="m-5">
+<h1 class="text-lg font-bold">taipu >>> タイプ</h1>
+<div class="">
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center">
+            <label for="from" class="mr-1">Romaji:</label>
+            <input type="text" name="from" id="from" class="border border-stone-600 rounded-lg p-1 font-mono">
+        </div>
+        <div class="flex">
+            <p id="to"></p>
+        </div>
+    </div>
+</div>
+</body>
 </html>
