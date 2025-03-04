@@ -1,4 +1,4 @@
-import {diacriticize, hiragana, katakana, Row} from "./alphabets.ts";
+import { diacriticize, hiragana, katakana, Row } from "./alphabets.ts";
 
 function isVowel(char: string) {
   return ["a", "i", "u", "e", "o"].includes(char);
@@ -7,26 +7,25 @@ function isVowel(char: string) {
 let alphabet = hiragana;
 
 export function setupAlphabetPicker(toggle: HTMLInputElement, from: HTMLInputElement) {
-  toggle.addEventListener("change", () => {
+  const setKana = () => {
     if (toggle.checked) alphabet = katakana;
     else alphabet = hiragana;
     from.value += "";
-  });
+  };
+  document.addEventListener("load", setKana);
+  toggle.addEventListener("change", setKana);
 }
 
 export function setupTranscriber(from: HTMLInputElement, to: HTMLParagraphElement) {
   from.addEventListener("input", () => {
     to.innerText = transcribeRomaji(from.value);
-    /*
-    * YOU -> yo + U
-    * F? -> FU + ?
-    * V? -> U" + ?
-    * */
   });
 }
 
 // TEST: happyaku v
 // TEST: kanojo v
+// TEST: variorinn v
+// TEST: faradai v
 
 function transcribeRomaji(romaji: string) {
   let result = "";
@@ -35,6 +34,7 @@ function transcribeRomaji(romaji: string) {
   let small = false;
 
   romaji = romaji
+    .toLowerCase()
     .replaceAll("tsu", "tu")
     .replaceAll("shi", "si")
     .replaceAll("chi", "ti")
@@ -42,6 +42,7 @@ function transcribeRomaji(romaji: string) {
     .replaceAll(/j(?=[aiueo])/g, "zy")
     .replaceAll("dzu", "du")
     .replaceAll("fu", "hu");
+
 
   function write(vowel: string) {
     if (doubleConsonant) {
@@ -56,9 +57,21 @@ function transcribeRomaji(romaji: string) {
   }
 
   for (const char of romaji) {
-    if (isVowel(char)) {
-      write(char);
-    } else if (char === "n" && consonant == "n")
+    if (consonant == "f" && char !== "u") {
+      consonant = "h"
+      write("u")
+      small = true
+      write(char)
+    }
+    else if (consonant == "v" && char !== "u") {
+      write("u")
+      small = true
+      write(char)
+    }
+    else if (isVowel(char)) {
+      write(char)
+    }
+    else if (char === "n" && consonant == "n")
       result += alphabet.n.n;
     else if (consonant === char)
       doubleConsonant = true;
@@ -67,7 +80,6 @@ function transcribeRomaji(romaji: string) {
         write("i");
         small = true;
       }
-
       consonant = char;
     }
   }
